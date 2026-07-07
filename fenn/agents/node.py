@@ -1,12 +1,14 @@
+from typing import Any
+
 from fenn.agents import Node
 from fenn.agents.tools import execute_tool
 
 
 class ThinkNode(Node):
-    def prep(self, shared):
+    def prep(self, shared: dict[str, Any]) -> dict[str, Any]:
         return {"llm": shared["llm"], "messages": shared["messages"]}
 
-    def exec(self, prep_res):
+    def exec(self, prep_res: dict[str, Any]) -> str:
         llm = prep_res["llm"]
         response = llm.chat_complete(prep_res["messages"])
         return response
