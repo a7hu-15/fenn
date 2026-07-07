@@ -1,6 +1,6 @@
 import inspect
 from functools import wraps
-from typing import Any
+from typing import Any, Callable
 
 TOOLS_REGISTRY: dict[str, dict[str, Any]] = {}
 
