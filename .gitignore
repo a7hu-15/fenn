@@ -1,0 +1,25 @@
+﻿__pycache__/
+build/
+dist/
+*.egg-info/
+.env
+diff.txt
+venv/
+logger/
+site/
+.*/
+
+remote-server/
+
+*.md
+!README.md
+!CODE_OF_CONDUCT.md
+!CONTRIBUTING.md
+!THIRD_PARTY_NOTICES.md
+
+# Tests
+coverage.xml
+.coverage
+.pytest_cache/
+venv/
+test

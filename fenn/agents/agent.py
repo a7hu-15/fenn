@@ -1,0 +1,43 @@
+from typing import Any
+
+import yaml
+
+from fenn.agents import Flow
+from fenn.agents.node import ActNode, ObserveNode, ThinkNode
+from fenn.agents.tools import get_tool_schema
+
+
+class Agent:
+    def __init__(self, config: str, llm: Any) -> None:
+        self.llm = llm
+        with open(config) as f:
+            self.config = yaml.safe_load(f)
+
+        think = ThinkNode()
+        act = ActNode()
+        observe = ObserveNode()
+
+        think - "act" >> act
+        think - "done" >> None
+        act - "observe" >> observe
+        observe - "think" >> think
+        observe - "done" >> None
+
+        self.flow = Flow(start=think)
+
+    def run(self, user_input: str) -> str:
+        shared = {
+            "llm": self.llm,
+            "messages": [
+                {"role": "system", "content": self.config["agent"]["system_prompt"]},
+                {"role": "user", "content": user_input},
+            ],
+            "tools": get_tool_schema(),
+            "iterations": 0,
+            "max_iterations": self.config["agent"]["max_iterations"],
+            "last_thought": None,
+            "last_observation": None,
+        }
+
+        self.flow.run(shared)
+        return shared["messages"][-1]["content"]

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connect — Fenn Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icon.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="connect-body">
+
+  <main class="connect-shell">
+    <div class="connect-card">
+      <img src="{{ url_for('static', filename='images/mascotte.svg') }}"
+           alt=""
+           class="connect-mascotte">
+      <h1 class="connect-title">
+        <span class="logo-bracket">[</span>fenn<span class="logo-bracket">]</span>
+        <span class="connect-title-sub">/dashboard</span>
+      </h1>
+      <p class="connect-lead">
+        Sign in with your pyfenn.com account to view your logs. A browser tab
+        opens for sign-in and consent, then brings you right back here.
+      </p>
+
+      {% if error_message %}
+      <div class="connect-error">{{ error_message }}</div>
+      {% endif %}
+      {% if info_message %}
+      <div class="connect-info">{{ info_message }}</div>
+      {% endif %}
+
+      <form method="POST" action="{{ url_for('connect_start') }}" class="connect-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit" class="connect-submit">Sign in with pyfenn.com</button>
+      </form>
+
+      <p class="connect-foot">
+        Don't have an account?
+        <a href="https://pyfenn.com/login" target="_blank" rel="noopener noreferrer">Create one at pyfenn.com</a>.
+      </p>
+    </div>
+  </main>
+
+</body>
+</html>
